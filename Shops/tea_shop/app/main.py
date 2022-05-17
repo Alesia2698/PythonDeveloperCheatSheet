@@ -1,43 +1,44 @@
 import json
+from typing import Dict, List
 
 
 add_catalog = []
 
 
-def read_file(path, name):
+def read_file(path, name) -> List:
     with open(path) as file:
         data = json.load(file)
     return data.get(name)
 
 
-def write_file(path, data):
+def write_file(path, data) -> None:
     with open(path, "w") as file:
         data = json.dump(data, file)
 
 
-def format_file(data):  
+def format_file(data: List) -> Dict: 
     result = {}
     for products in data:
         result[products.get("product_name")] = products.get("price")
     return result
 
 
-def get_all_catalog():
+def get_all_catalog() -> List:
     data = read_file("app\catalog.json", "catalog")
     return data
 
 
-def get_new_catalog(add_catalog):
+def get_new_catalog(add_catalog) -> List:
     data = write_file("app\Add_catalog.json", add_catalog)
     
  
-def format(product_list):
+def format(product_list: Dict) -> str:
     return "\n".join([
         f"{product_name} costs {price} BYN" for product_name, price in product_list.items()
     ])
 
 
-def add_product(product_name):
+def add_product(product_name: str) -> None:
     catalog = get_all_catalog()
     for product in catalog:
         item_price = product["price"]
@@ -48,7 +49,7 @@ def add_product(product_name):
             return "Product added in bag"
         
     
-def summa():
+def summa() -> List:
     coast_list= [] 
     for product in add_catalog:
         result = list(product.values())
@@ -58,7 +59,7 @@ def summa():
     return total_sum
    
 
-def menu():
+def menu() -> str:
     return(
         "*"*50 + "\n" +
         "1. Viewing catalog\n" +
